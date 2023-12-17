@@ -174,6 +174,16 @@ void App::PrepareUpdate()
 void App::FinishUpdate()
 {
 	// This is a good place to call Load / Save functions
+	if (!app->render->vsync) {
+		double currentDt = frameTime.ReadMs();
+		if (maxFrameDuration > 0 && currentDt < maxFrameDuration) {
+			uint32 delay = (uint32)(maxFrameDuration - currentDt);
+
+			PerfTimer delayTimer = PerfTimer();
+			SDL_Delay(delay);
+			//LOG("We waited for %I32u ms and got back in %f ms",delay,delayTimer.ReadMs());
+		}
+	}
 
 	// Amount of frames since startup
 	frameCount++;
@@ -204,7 +214,15 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
-	
+	if (loadRequest) {
+		loadRequest = false;
+		LoadFromFile();
+	}
+
+	if (saveRequest) {
+		saveRequest = false;
+		SaveFromFile();
+	}
 }
 
 // Call modules before each loop iteration
@@ -319,4 +337,80 @@ const char* App::GetOrganization() const
 	return organization.GetString();
 }
 
+// Request a save data in an XML file 
+bool App::LoadRequest() {
 
+	bool ret = true;
+	loadRequest = true;
+	return ret;
+}
+
+// Request to load data from XML file 
+bool App::SaveRequest() {
+	bool ret = true;
+	saveRequest = true;
+	return true;
+}
+
+//Implement the method LoadFromFile() to actually load a xml file
+// then call all the modules to load themselves
+bool App::LoadFromFile() {
+
+	bool ret = true;
+
+	pugi::xml_document saveFile;
+	pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
+
+	if (result)
+	{
+		LOG("save_game.xml parsed without errors");
+
+		// Iterates all modules and call the load of each with the part of the XML node that corresponds to the module
+		ListItem<Module*>* item;
+		item = modules.start;
+		while (item != NULL && ret == true)
+		{
+			ret = item->data->LoadState(saveFile.child("game_state").child(item->data->name.GetString()));
+			item = item->next;
+		}
+
+	}
+	else
+	{
+		LOG("Error loading save_game.xml: %s", result.description());
+		ret = false;
+	}
+
+
+
+	return ret;
+
+}
+
+//Implement the xml save method SaveToFile() for current state
+bool App::SaveFromFile() {
+
+	bool ret = true;
+
+	pugi::xml_document saveFile;
+	pugi::xml_node gameState = saveFile.append_child("game_state");
+
+	// Iterates all modules and call the save of each with the part of the XML node that corresponds to the module
+	ListItem<Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		pugi::xml_node module = gameState.append_child(item->data->name.GetString());
+		ret = item->data->SaveState(module);
+		item = item->next;
+	}
+
+	ret = saveFile.save_file("save_game.xml");
+
+	if (ret) LOG("Saved");
+	else LOG("Error saving game state");
+
+	return ret;
+
+}

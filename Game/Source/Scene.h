@@ -34,6 +34,11 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	
+	bool LoadState(pugi::xml_node node);
+
+	
+	bool SaveState(pugi::xml_node node);
 
 	Player* GetPLayer();
 

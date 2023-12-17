@@ -235,7 +235,7 @@ bool Player::Update(float dt)
 	if (isDashing && isJumping) { currentAnim = &dashAnim; };
 	//Vsync
 
-	if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		app->render->vsync = !app->render->vsync;
 	}
 
