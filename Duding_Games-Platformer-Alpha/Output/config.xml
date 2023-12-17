@@ -1,0 +1,103 @@
+<config>
+	<app>
+		<title>Duding Games Platformer Alpha</title>
+		<maxFrameDuration value="16"/>
+	</app>
+
+	<renderer>
+		<vsync value="true"/>
+	</renderer>
+
+	<window>
+		<resolution width="1024" height="500" scale="2"/>
+		<fullscreen value="false"/>
+		<borderless value="false"/>
+		<resizable value="false"/>
+		<fullscreen_window value="false"/>
+	</window>
+
+	<audio>
+		<music volume="8"/>
+		<fx volume="8"/>
+	</audio>
+	<audios>
+		<backgroundMusic path="Assets/Audio/Music/background_music.ogg"/>
+		<pickCoin path="Assets/Audio/Fx/coin.ogg"/>
+	</audios>
+
+	<scene>
+		<map path="Assets/Maps/" name="MapGameTiled.tmx"/>
+		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
+		<item x="230" y="460" texturepath="Assets/Textures/goldCoin.png"/>
+
+
+
+	</scene>
+	<animations>
+		<idleAnim loop="true" speed="0.1">
+			<frame x="0" y="0" w="50" h="37"/>
+			<frame x="50" y="0" w="50" h="37"/>
+			<frame x="100" y="0" w="50" h="37"/>
+			<frame x="150" y="0" w="50" h="37"/>
+		</idleAnim>
+		<runAnim loop="true" speed="0.1">
+			<frame x="50" y="37" w="50" h="37"/>
+			<frame x="100" y="37" w="50" h="37"/>
+			<frame x="150" y="37" w="50" h="37"/>
+			<frame x="200" y="37" w="50" h="37"/>
+			<frame x="250" y="37" w="50" h="37"/>
+		</runAnim>
+		<jumpAnim loop="false" speed="0.17">
+			<frame x="50" y="75" w="50" h="37"/>
+			<frame x="100" y="75" w="50" h="37"/>
+			<frame x="150" y="75" w="50" h="37"/>
+			<frame x="200" y="75" w="50" h="37"/>
+			<frame x="250" y="75" w="50" h="37"/>
+			<frame x="300" y="75" w="50" h="37"/>
+			<frame x="0" y="120" w="50" h="37"/>
+			<frame x="50" y="110" w="50" h="37"/>
+		</jumpAnim>
+		<crouchAnim loop="true" speed="0.07">
+			<frame x="200" y="0" w="50" h="37"/>
+			<frame x="250" y="0" w="50" h="37"/>
+			<frame x="300" y="0" w="50" h="37"/>
+			<frame x="0" y="37" w="50" h="37"/>
+		</crouchAnim>
+		<dashAnim loop="true" speed="0.1">
+			<frame x="150" y="111" w="50" h="37"/>
+			<frame x="200" y="111" w="50" h="37"/>
+			<frame x="250" y="111" w="50" h="37"/>
+			<frame x="300" y="111" w="50" h="37"/>
+			<frame x="0" y="148" w="50" h="37"/>
+		</dashAnim>
+		<attackAnim loop="true" speed="0.15">
+			<frame x="0" y="222" w="50" h="37"/>
+			<frame x="50" y="222" w="50" h="37"/>
+			<frame x="100" y="222" w="50" h="37"/>
+			<frame x="150" y="222" w="50" h="37"/>
+			<frame x="200" y="222" w="50" h="37"/>
+			<frame x="250" y="222" w="50" h="37"/>
+			<frame x="300" y="222" w="50" h="37"/>
+			<frame x="0" y="259" w="50" h="37"/>
+			<frame x="50" y="259" w="50" h="37"/>
+			<frame x="100" y="259" w="50" h="37"/>
+			<frame x="150" y="259" w="50" h="37"/>
+			<frame x="200" y="259" w="50" h="37"/>
+			<frame x="250" y="259" w="50" h="37"/>
+			<frame x="300" y="259" w="50" h="37"/>
+			<frame x="0" y="296" w="50" h="37"/>
+			<frame x="50" y="296" w="50" h="37"/>
+			<frame x="100" y="295" w="50" h="37"/>
+		</attackAnim>
+		<dieAnim loop="false" speed="0.07">
+			<frame x="100" y="333" w="50" h="37"/>
+			<frame x="150" y="333" w="50" h="37"/>
+			<frame x="200" y="333" w="50" h="37"/>
+			<frame x="250" y="333" w="50" h="37"/>
+			<frame x="150" y="333" w="50" h="37"/>
+			<frame x="200" y="333" w="50" h="37"/>
+			<frame x="250" y="333" w="50" h="37"/>
+			<frame x="200" y="333" w="50" h="37"/>
+		</dieAnim>
+	</animations>
+</config>
