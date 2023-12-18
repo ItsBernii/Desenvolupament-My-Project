@@ -160,6 +160,8 @@ private:
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool LoadCollisions(std::string collisionLayer);
 	bool LoadCollisionsObject();
+	void CreateNavigationMap(int& width, int& height, uchar** buffer, MapLayer* navigationLayer) const;
+	bool LoadNavigationLayer();
 
 	
 
@@ -169,6 +171,7 @@ public:
 	SString name;
 	SString path;
 	PathFinding* pathfinding;
+	MapLayer* navigationLayer;
 
 private:
 

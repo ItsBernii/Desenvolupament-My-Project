@@ -34,6 +34,8 @@ public:
 
 	bool isOutOfBounds(int x, int y);
 
+	bool Flyfinding();
+
 public:
 	float speed;
 	const char* texturePath;

@@ -12,6 +12,7 @@
 #include "Timer.h"
 #include "PerfTimer.h"
 #include "Window.h"
+#include "Map.h"
 
 EnemyFly::EnemyFly() : Entity(EntityType::ENEMYFLY)
 {
@@ -160,4 +161,10 @@ void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 bool EnemyFly::isOutOfBounds(int x, int y) {
 	return true;
+}
+
+bool EnemyBat::Flyfinding()
+{
+	if (app->map->pathfinding->GetDistance((b2Vec2)app->scene->GetPLayer()->position, );
+		return false;
 }
