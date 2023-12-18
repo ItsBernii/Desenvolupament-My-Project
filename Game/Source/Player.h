@@ -42,6 +42,7 @@ public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
+	PhysBody* sensor;
 	int pickCoinFxId;
 	int offsetTexY = 6;
 	bool isJumping = false;

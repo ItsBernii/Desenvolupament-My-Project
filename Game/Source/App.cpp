@@ -174,7 +174,7 @@ void App::PrepareUpdate()
 void App::FinishUpdate()
 {
 	// This is a good place to call Load / Save functions
-	if (!app->render->vsync) {
+	if (app->render->vsync) {
 		double currentDt = frameTime.ReadMs();
 		if (maxFrameDuration > 0 && currentDt < maxFrameDuration) {
 			uint32 delay = (uint32)(maxFrameDuration - currentDt);

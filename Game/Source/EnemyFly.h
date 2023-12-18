@@ -41,11 +41,14 @@ public:
 	PhysBody* pbody;
 
 	bool isFacingLeft;
+	bool isDead = false;
 
 	Animation* currentAnim;
 
 private:
 	Animation idleAnim;
+	Animation dieAnim;
+	Animation deadAnim;
 
 	b2Transform initialPos;
 };

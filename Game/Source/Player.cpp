@@ -138,17 +138,17 @@ bool Player::Update(float dt)
 		pbody->body->GetFixtureList()[0].SetSensor(false);
 		
 		
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isDying) {
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isDying && !isAttacking) {
 			currentAnim = &crouchAnim;
 			isCrouching = true;
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isDashing && !isDying &&!isCrouching) {
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isDashing && !isDying &&!isCrouching && !isAttacking) {
 			vel = b2Vec2(-speed * dt, pbody->body->GetLinearVelocity().y);
 			currentAnim = &runAnim;
 			isFacingLeft = true;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isDashing && !isDying && !isCrouching) {
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isDashing && !isDying && !isCrouching && !isAttacking) {
 			vel = b2Vec2(speed * dt, pbody->body->GetLinearVelocity().y);
 			currentAnim = &runAnim;
 			isFacingLeft = false;
@@ -156,7 +156,7 @@ bool Player::Update(float dt)
 		
 		pbody->body->SetLinearVelocity(vel);
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !isDying) {
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !isDying && !isAttacking) {
 			if (isJumping == false) {
 				vel.y = 0;
 				pbody->body->SetLinearVelocity(vel);
@@ -167,7 +167,7 @@ bool Player::Update(float dt)
 
 		}
 		//Dash
-		if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && !isDying) {
+		if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && !isDying && !isAttacking) {
 			if (!isDashing) {
 				timerDash.Start();
 				if (isFacingLeft) {
@@ -201,9 +201,29 @@ bool Player::Update(float dt)
 			isDashing = true;
 		}
 		//Attack
-		
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && !isDying && !isDashing && !isJumping && !isAttacking) {
 			isAttacking = true;
-			
+			if (isFacingLeft) {
+				sensor = app->physics->CreateRectangleSensor(position.x - 5, position.y + 15, 20, 40, bodyType::STATIC);
+				sensor->ctype = ColliderType::ATTACK;
+			}
+			else {
+				sensor = app->physics->CreateRectangleSensor(position.x + 36, position.y + 15, 20, 40, bodyType::STATIC);
+				sensor->ctype = ColliderType::ATTACK;
+			}
+		}
+
+		if (isAttacking) {
+
+
+			currentAnim = &attackAnim;
+			if (attackAnim.HasFinished() == true) {
+				isAttacking = false;
+				attackAnim.Reset();
+				currentAnim = &idleAnim;
+				sensor->body->GetWorld()->DestroyBody(sensor->body);
+			}
+		}
 
 		if (app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
 			isDying = true;

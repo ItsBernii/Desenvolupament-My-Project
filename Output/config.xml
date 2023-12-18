@@ -1,7 +1,7 @@
 <config>
 	<app>
 		<title>Duding Games Platformer Alpha</title>
-		<maxFrameDuration value="32"/>
+		<maxFrameDuration value="16"/>
 	</app>
 
 	<renderer>
@@ -31,7 +31,7 @@
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
-		<enemyFly x="220" y="400" texturepath="Assets/Textures/enemyfly.png" speed="0.2"/>
+		<enemyFly x="230" y="460" texturepath="Assets/Textures/enemyfly.png" speed="0.2"/>
 		<item x="230" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="245" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="260" y="471" texturepath="Assets/Textures/coin.png"/>
@@ -117,8 +117,23 @@
 			<frame x="48" y="16" w="16" h="16"/>
 		</coinAnim>
 		<idleAnimFly loop="true" speed="0.1">
-			<frame x="0" y="0" w="30" h="30"/>
+			<frame x="0" y="20" w="32" h="20"/>
+			<frame x="32" y="20" w="32" h="20"/>
+			<frame x="64" y="20" w="32" h="20"/>
+			<frame x="96" y="20" w="32" h="20"/>
 		</idleAnimFly>
 
+		<deadAnimFly loop="false" speed="0.1">
+			<frame x="32" y="40" w="32" h="25"/>
+			<frame x="64" y="40" w="32" h="25"/>
+			<frame x="96" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+			<frame x="128" y="40" w="32" h="25"/>
+		</deadAnimFly>
 	</animations>
 </config>
