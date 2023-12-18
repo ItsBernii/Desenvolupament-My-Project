@@ -31,7 +31,7 @@
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
-		
+		<enemyFly x="200" y="470" texturepath="Assets/Textures/EnemyFly/enemyfly.png" speed="0.2"/>
 		<item x="230" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="245" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="260" y="471" texturepath="Assets/Textures/coin.png"/>
@@ -116,7 +116,9 @@
 			<frame x="32" y="16" w="16" h="16"/>
 			<frame x="48" y="16" w="16" h="16"/>
 		</coinAnim>
-		
+		<idleAnimFly loop="true" speed="0.1">
+			<frame x="0" y="0" w="30" h="30"/>
+		</idleAnimFly>
 
 	</animations>
 </config>
