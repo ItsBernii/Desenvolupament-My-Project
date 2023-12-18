@@ -41,10 +41,11 @@ bool EnemyFly::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
-	pbody = app->physics->CreateCircle(position.x, position.y + 12, 14, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x, position.y, 7, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetFixedRotation(false);
+	pbody->body->SetGravityScale(0);
 
 	initialPos = pbody->body->GetTransform();
 
@@ -55,6 +56,26 @@ bool EnemyFly::Start() {
 bool EnemyFly::Update(float dt)
 {
 	currentAnim = &idleAnim;
+
+	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
+	vel.y = pbody->body->GetLinearVelocity().y;
+
+	if (app->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT) {
+		vel = b2Vec2(speed * dt, 0);
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) {
+		pbody->body->SetGravityScale(1);
+		app->entityManager->DestroyEntity(pbody->listener);
+		pbody->body->SetActive(false);
+	}
+
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+
+	pbody->body->SetLinearVelocity(vel);
+
+	currentAnim->Update();
 
 	return true;
 }
@@ -67,7 +88,7 @@ bool EnemyFly::PostUpdate() {
 		app->render->DrawTexture(texture, position.x, position.y, SDL_FLIP_HORIZONTAL, &rect);
 	}
 	else {
-		app->render->DrawTexture(texture, position.x, position.y, SDL_FLIP_NONE, &rect);
+		app->render->DrawTexture(texture, position.x + 3, position.y + 2, SDL_FLIP_NONE, &rect);
 	}
 
 	return true;
@@ -82,9 +103,14 @@ void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
+	case ColliderType::PLAYER:
+		LOG("Collision PLAYER");
+		break;
+
 	case ColliderType::ENEMY:
 		LOG("Collision ENEMY");
 		break;
+
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
 		break;
