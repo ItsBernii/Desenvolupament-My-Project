@@ -326,6 +326,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision SPIKES");
 		break;
 
+	case ColliderType::ENEMYFLY:
+		isDying = true;
+		isJumping = false;
+		LOG("Collision ENEMYFLY");
+		break;
 
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
