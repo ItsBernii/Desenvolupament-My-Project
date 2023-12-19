@@ -1,4 +1,4 @@
-#include "EnemyFly.h"
+#include "EnemyWalk.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -16,29 +16,26 @@
 #include "DynArray.h"
 #include "Pathfinding.h"
 
-EnemyFly::EnemyFly() : Entity(EntityType::ENEMYFLY)
+EnemyWalk::EnemyWalk() : Entity(EntityType::ENEMYWALK)
 {
-	name.Create("EnemyFly");
+	name.Create("EnemyWalk");
 
 	//idle
-	idleAnim.LoadAnimations("idleAnimFly");
+	idleAnim.LoadAnimations("idleAnimWalk");
 
 	//dying
-	dieAnim.LoadAnimations("dyingAnimBat");
+	dieAnim.LoadAnimations("dyingAnimWalk");
 
-	//dead
-	deadAnim.LoadAnimations("deadAnimBat");
-
-	//atack
-	attackAnim.LoadAnimations("attackAnimFly");
+	//attacking
+	attackAnim.LoadAnimations("attackAnimWalk");
 
 }
 
-EnemyFly::~EnemyFly() {
+EnemyWalk::~EnemyWalk() {
 
 }
 
-bool EnemyFly::Awake() {
+bool EnemySlime::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
@@ -48,16 +45,17 @@ bool EnemyFly::Awake() {
 	return true;
 }
 
-bool EnemyFly::Start() {
+bool EnemyWalk::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
-	pbody = app->physics->CreateCircle(position.x, position.y, 6, bodyType::DYNAMIC);
+	killFxId = app->audio->LoadAudios("Kill");
+
+	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetFixedRotation(false);
-	pbody->body->SetGravityScale(0);
 
 	initialPos.p.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 3;
 	initialPos.p.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 3;
@@ -66,83 +64,68 @@ bool EnemyFly::Start() {
 	return true;
 }
 
-bool EnemyFly::Update(float dt)
+bool EnemyWalk::Update(float dt)
 {
 	currentAnim = &idleAnim;
+	vel = b2Vec2(0, -GRAVITY_Y);
 
-	vel = b2Vec2(0, 0);
+	if (!isDead) {
+		if (isAttacking) currentAnim = &attackAnim;
 
-	if (app->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT) {
-		vel = b2Vec2(speed * dt, 0);
+		Slimefinding(dt);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-		isFacingLeft = !isFacingLeft;
-	}
-
-	if (isDead) {
-		currentAnim = &deadAnim;
-		pbody->body->SetActive(false);
-		if (deadAnim.HasFinished() == true) {
-			app->entityManager->DestroyEntity(pbody->listener);
-		}
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) {
-		pbody->body->SetGravityScale(1);
-		pbody->body->SetLinearVelocity(b2Vec2(0, -GRAVITY_Y));
-		currentAnim = &dieAnim;
-	}
-
-	if (isAttacking && !isDead) {
-		currentAnim = &attackAnim;
-	}
-
-	Flyfinding(dt);
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	pbody->body->SetLinearVelocity(vel);
+	
+	if (isDead) {
+		currentAnim = &dieAnim;
+		pbody->body->SetActive(false);
+		if (dieAnim.HasFinished()) {
+			app->entityManager->DestroyEntity(pbody->listener);
+			dieAnim.Reset();
+		}
+	}
 
 	currentAnim->Update();
 
 	return true;
 }
 
-bool EnemyFly::PostUpdate() {
+bool EnemyWalk::PostUpdate() {
 
 	SDL_Rect rect = currentAnim->GetCurrentFrame();
 
 	if (isFacingLeft) {
-		app->render->DrawTexture(texture, position.x + 7, position.y + 7, SDL_FLIP_HORIZONTAL, &rect);
+		app->render->DrawTexture(texture, position.x - 18, position.y - 23, SDL_FLIP_HORIZONTAL, &rect);
 	}
 	else {
-		app->render->DrawTexture(texture, position.x + 5, position.y + 7, SDL_FLIP_NONE, &rect);
+		app->render->DrawTexture(texture, position.x - 18, position.y - 23, SDL_FLIP_NONE, &rect);
 	}
 
 	return true;
 }
-bool EnemyFly::CleanUp()
+bool EnemyWalk::CleanUp()
 {
 
 	return true;
 }
 
-void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
+void EnemyWalk::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
 		break;
-
 	case ColliderType::ATTACK:
 		LOG("Collision ATTACK");
-		pbody->body->SetGravityScale(1);
-		pbody->body->SetLinearVelocity(b2Vec2(0, -GRAVITY_Y));
-		currentAnim = &dieAnim;
+		isAttacking = false;
+		isDead = true;
+		app->audio->PlayFx(killFxId);
 		break;
-
 	case ColliderType::ENEMY:
 		LOG("Collision ENEMY");
 		break;
@@ -156,12 +139,10 @@ void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 
 	case ColliderType::PLATFORM:
-		isDead = true;
 		LOG("Collision PLATFORM");
 		break;
 
 	case ColliderType::SPIKES:
-
 		LOG("Collision SPIKES");
 		break;
 
@@ -172,26 +153,29 @@ void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 }
 
-bool EnemyFly::isOutOfBounds(int x, int y) {
+bool EnemyWalk::isOutOfBounds(int x, int y) {
 	return true;
 }
 
-bool EnemyFly::Flyfinding(float dt)
+bool EnemyWalk::Slimefinding(float dt)
 {
-	if (app->map->pathfinding->GetDistance(app->scene->GetPLayer()->position, position) <= 150) {
+	if(app->map->pathfinding_walking->GetDistance(app->scene->GetPLayer()->position, position) <= 120){
 
 		iPoint playerPos = app->map->WorldToMap(app->scene->GetPLayer()->position.x, app->scene->GetPLayer()->position.y);
 		playerPos.x += 1;
-		iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
+		playerPos.y +=1;
+		iPoint enemyPos = app->map->WorldToMap(position.x,position.y);
+		enemyPos.y += 1;
 
-		app->map->pathfinding->CreatePath(playerPos, enemyPos);
-		lastPath = *app->map->pathfinding->GetLastPath();
-		// L13: Get the latest calculated path and draw
+		app->map->pathfinding_walking->CreatePath(playerPos,enemyPos);
+		lastPath = *app->map->pathfinding_walking->GetLastPath();
+
+		//Get the latest calculated path and draw
 		for (uint i = 0; i < lastPath.Count(); ++i)
 		{
 			iPoint pos = app->map->MapToWorld(lastPath.At(i)->x, lastPath.At(i)->y);
 			if (app->physics->debug == true) {
-				app->render->DrawTexture(app->map->pathfinding->mouseTileTex, pos.x, pos.y, SDL_FLIP_NONE);
+				app->render->DrawTexture(app->map->pathfinding_walking->mouseTileTex, pos.x, pos.y, SDL_FLIP_NONE);
 			}
 		}
 
@@ -202,16 +186,8 @@ bool EnemyFly::Flyfinding(float dt)
 			}
 
 			if (lastPath.At(lastPath.Count() - 2)->x > enemyPos.x) {
-				vel.x += speed * dt;
-				isFacingLeft = false;
-			}
-
-			if (lastPath.At(lastPath.Count() - 2)->y < enemyPos.y) {
-				vel.y -= speed * dt;
-			}
-
-			if (lastPath.At(lastPath.Count() - 2)->y > enemyPos.y) {
-				vel.y += speed * dt;
+				vel.x += speed * dt; 
+					isFacingLeft = false;
 			}
 
 			isAttacking = false;
@@ -219,8 +195,8 @@ bool EnemyFly::Flyfinding(float dt)
 			pbody->body->SetLinearVelocity(vel);
 		}
 
-		if (app->map->pathfinding->GetDistance(app->scene->GetPLayer()->position, position) <= 66) {
-
+		if (app->map->pathfinding_walking->GetDistance(app->scene->GetPLayer()->position, position) <= 66){
+			
 			if (isFacingLeft) {
 				vel.x -= speed * dt;
 			}
@@ -231,15 +207,18 @@ bool EnemyFly::Flyfinding(float dt)
 			isAttacking = true;
 			pbody->body->SetLinearVelocity(vel);
 		}
-
+	
 	}
 
 	else {
 
-		currentAnim = &idleAnim;
+		isAttacking = false;
+
+		if (!isDead) {
+			currentAnim = &idleAnim;
 
 		if (isFacingLeft) {
-			if (position.x > initialPos.p.x - 40) {
+			if(position.x > initialPos.p.x - 40) {
 				vel.x -= speed * dt;
 			}
 			else {
@@ -247,7 +226,8 @@ bool EnemyFly::Flyfinding(float dt)
 			}
 		}
 
-		else {
+
+		else{
 			if (position.x < initialPos.p.x + 40) {
 				vel.x += speed * dt;
 			}
@@ -257,6 +237,9 @@ bool EnemyFly::Flyfinding(float dt)
 		}
 
 		pbody->body->SetLinearVelocity(vel);
+		}
+		
 	}
 	return true;
+
 }

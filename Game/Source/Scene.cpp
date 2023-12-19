@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "EnemyFly.h"
+#include "EnemyWalk.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -43,6 +44,11 @@ bool Scene::Awake(pugi::xml_node& config)
 	if (config.child("enemyFly")) {
 		enemyFly = (EnemyFly*)app->entityManager->CreateEntity(EntityType::ENEMYFLY);
 		enemyFly->parameters = config.child("enemyFly");
+	}
+
+	if (config.child("enemyWalk")) {
+		enemyWalk = (EnemyWalk*)app->entityManager->CreateEntity(EntityType::ENEMYWALK);
+		enemyWalk->parameters = config.child("enemyWalk");
 	}
 
 	if (config.child("map")) {

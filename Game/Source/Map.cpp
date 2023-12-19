@@ -572,7 +572,7 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer, MapLayer*
             if (gid == tileset->firstgid + 3)navigationMap[i] = 0;
             else navigationMap[i] = 1;
 
-            /*if (navigationLayer == navigationLayer) {
+            /*if (navigationLayer == navigationLayer_floor) {
                 if (gid == tileset->firstgid + 1) navigationMap[i] = 1;
                 else navigationMap[i] = 0;
             }

@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Player.h"
 #include "EnemyFly.h"
+#include "EnemyWalk.h"
 #include "Item.h"
 
 struct SDL_Texture;
@@ -51,6 +52,7 @@ private:
 	uint windowW, windowH;
 	Player* player;
 	EnemyFly* enemyFly;
+	EnemyWalk* enemyWalk;
 
 };
 

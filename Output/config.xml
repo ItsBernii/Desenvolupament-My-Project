@@ -32,7 +32,7 @@
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
 		<enemyFly x="340" y="460" texturepath="Assets/Textures/enemyfly.png" speed="0.1"/>
-		
+		<enemyWalk x="150" y="480" texturepath="Assets/Textures/enemyalk.png" speed="0.1"/>
 		<item x="230" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="245" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="260" y="471" texturepath="Assets/Textures/coin.png"/>
@@ -152,6 +152,17 @@
 			<frame x="114" y="76" w="20" h="20"/>
 			<frame x="133" y="76" w="20" h="20"/>
 		</attackAnimFly>
+
+		<idleAnimSlime loop="true" speed="0.1">
+			<frame x="0" y="0" w="64" h="64"/>
+			<frame x="64" y="0" w="64" h="64"/>
+			<frame x="128" y="0" w="64" h="64"/>
+			<frame x="192" y="0" w="64" h="64"/>
+		</idleAnimSlime>
+		<attackAnimSlime loop="false" speed="0.1">
+			<frame x="256" y="0" w="64" h="64"/>
+			<frame x="256" y="0" w="64" h="64"/>
+		</attackAnimSlime>
 		
 	</animations>
 </config>
