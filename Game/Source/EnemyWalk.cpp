@@ -35,7 +35,7 @@ EnemyWalk::~EnemyWalk() {
 
 }
 
-bool EnemySlime::Awake() {
+bool EnemyWalk::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
