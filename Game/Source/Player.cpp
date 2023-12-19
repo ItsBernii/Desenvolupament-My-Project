@@ -74,7 +74,6 @@ bool Player::Start() {
 	pbody->body->SetFixedRotation(false);
 
 	pickCoinFxId = app->audio->LoadAudios("pickCoin");
-	jumpFxId = app->audio->LoadAudios("Jump");
 
 	initialPos = pbody->body->GetTransform();
 		
@@ -162,7 +161,6 @@ bool Player::Update(float dt)
 				pbody->body->SetLinearVelocity(vel);
 				pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * jumpForce), pbody->body->GetWorldCenter(), true);
 				isJumping = true;
-				app->audio->PlayFx(jumpFxId);
 			}
 
 		}

@@ -34,10 +34,6 @@ bool Map::Start() {
     mapPath += name;
     bool ret = Load(mapPath);
 
-    //Initialize pathfinding 
-    pathfinding = new PathFinding();
-    pathfinding->mouseTileTex = app->tex->Load(texturePath.GetString());
-
     return ret;
 }
 
