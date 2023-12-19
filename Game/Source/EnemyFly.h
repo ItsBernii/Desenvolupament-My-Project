@@ -59,3 +59,4 @@ private:
 
 	b2Transform initialPos;
 };
+#endif	// __ENEMYFLY_H__

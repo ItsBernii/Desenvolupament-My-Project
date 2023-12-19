@@ -15,6 +15,7 @@
 #include "Map.h"
 #include "DynArray.h"
 #include "Pathfinding.h"
+#include "Scene.h"
 
 EnemyFly::EnemyFly() : Entity(EntityType::ENEMYFLY)
 {
