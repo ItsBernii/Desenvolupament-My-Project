@@ -25,7 +25,6 @@ bool Map::Awake(pugi::xml_node& config)
 {
     LOG("Loading Map Parser");
     bool ret = true;
-    texturePath = config.child("mouseTileTex").attribute("texturepath").as_string();
     return ret;
 }
 
@@ -300,6 +299,16 @@ bool Map::Load(SString mapFileName)
         mapLayerItem = mapLayerItem->next;
     }
 
+    pathfinding = new PathFinding();
+
+    uchar* navigationMap = NULL;
+
+    CreateNavigationMap(mapData.width, mapData.height, &navigationMap, navigationLayer);
+    pathfinding->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap);
+    pathfinding->mouseTileTex = app->tex->Load(app->scene->texturePath.GetString());
+
+    RELEASE_ARRAY(navigationMap);
+
     if(mapFileXML) mapFileXML.reset();
 
     mapLoaded = ret;
@@ -560,8 +569,8 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer, MapLayer*
             //If the gid is a blockedGid is an area that I cannot navigate, so is set in the navigation map as 0, all the other areas can be navigated
             //!!!! make sure that you assign blockedGid according to your map
 
-            if (gid == tileset->firstgid + 3)navigationMap[i] = 1;
-            else navigationMap[i] = 0;
+            if (gid == tileset->firstgid + 3)navigationMap[i] = 0;
+            else navigationMap[i] = 1;
 
             /*if (navigationLayer == navigationLayer) {
                 if (gid == tileset->firstgid + 1) navigationMap[i] = 1;
