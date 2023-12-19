@@ -174,6 +174,7 @@ bool EnemyFly::Flyfinding(float dt)
 	if (app->map->pathfinding->GetDistance(app->scene->GetPLayer()->position, position) <= 200) {
 
 		iPoint playerPos = app->map->WorldToMap(app->scene->GetPLayer()->position.x, app->scene->GetPLayer()->position.y);
+		playerPos.x += 1;
 		iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
 
 		app->map->pathfinding->CreatePath(playerPos, enemyPos);
@@ -190,10 +191,12 @@ bool EnemyFly::Flyfinding(float dt)
 		if (lastPath.Count() > 2) {
 			if (lastPath.At(lastPath.Count() - 2)->x < enemyPos.x) {
 				vel.x -= speed * dt;
+				isFacingLeft = true;
 			}
 
 			if (lastPath.At(lastPath.Count() - 2)->x > enemyPos.x) {
 				vel.x += speed * dt;
+				isFacingLeft = false;
 			}
 
 			if (lastPath.At(lastPath.Count() - 2)->y < enemyPos.y) {
@@ -204,6 +207,18 @@ bool EnemyFly::Flyfinding(float dt)
 				vel.y += speed * dt;
 			}
 
+			pbody->body->SetLinearVelocity(vel);
+		}
+
+		if (app->map->pathfinding->GetDistance(app->scene->GetPLayer()->position, position) <= 66) {
+
+			if (isFacingLeft) {
+				vel.x -= speed * dt;
+			}
+			else {
+				vel.x += speed * dt;
+
+			}
 			pbody->body->SetLinearVelocity(vel);
 		}
 
