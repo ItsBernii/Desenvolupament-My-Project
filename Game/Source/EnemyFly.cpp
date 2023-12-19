@@ -85,6 +85,7 @@ bool EnemyFly::Update(float dt)
 		pbody->body->SetActive(false);
 		if (deadAnim.HasFinished() == true) {
 			app->entityManager->DestroyEntity(pbody->listener);
+			deadAnim.Reset();
 		}
 	}
 
