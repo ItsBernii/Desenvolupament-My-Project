@@ -27,7 +27,7 @@ Link to the project: <a href="https://github.com/ItsBernii/Desenvolupament-My-Pr
   <li>F1 - Go to Level 1</li>
   <li>F3 - Reset Current Level</li>
   <li>F5 - Save Position</li>
-  <li>F6 - Load Position/</li>
+  <li>F6 - Load Position</li>
   <li>F8 - Enable/Disable Vsync</li>
   <li>F9 - Enable/Disable Colliders</li>
   <li>F10 - Enable/Disable GodMode</li>
