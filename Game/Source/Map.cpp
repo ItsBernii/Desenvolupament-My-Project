@@ -1,4 +1,3 @@
-
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
@@ -288,26 +287,36 @@ bool Map::Load(SString mapFileName)
     // Find the navigation layer
     ListItem<MapLayer*>* mapLayerItem;
     mapLayerItem = mapData.maplayers.start;
-    navigationLayer = mapLayerItem->data;
+    navigationLayer_walking = mapLayerItem->data;
+    navigationLayer_flying = mapLayerItem->data;
 
     //Search the layer in the map that contains information for navigation
     while (mapLayerItem != NULL) {
-        if (mapLayerItem->data->properties.GetProperty("Navigation") != NULL && mapLayerItem->data->properties.GetProperty("Navigation")->value) {
-            navigationLayer = mapLayerItem->data;
-            break;
+        if (mapLayerItem->data->properties.GetProperty("Navigation_walking") != NULL && mapLayerItem->data->properties.GetProperty("Navigation_walking")->value) {
+            navigationLayer_walking = mapLayerItem->data;
+        }
+        if (mapLayerItem->data->properties.GetProperty("Navigation_flying") != NULL && mapLayerItem->data->properties.GetProperty("Navigation_flying")->value) {
+            navigationLayer_flying = mapLayerItem->data;
         }
         mapLayerItem = mapLayerItem->next;
     }
 
-    pathfinding = new PathFinding();
+    pathfinding_walking = new PathFinding();
+    pathfinding_flying = new PathFinding();
 
-    uchar* navigationMap = NULL;
+    uchar* navigationMap_walking = NULL;
+    uchar* navigationMap_flying = NULL;
 
-    CreateNavigationMap(mapData.width, mapData.height, &navigationMap, navigationLayer);
-    pathfinding->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap);
-    pathfinding->mouseTileTex = app->tex->Load(app->scene->texturePath.GetString());
+    CreateNavigationMap(mapData.width, mapData.height, &navigationMap_flying, navigationLayer_flying);
+    pathfinding_flying->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap_flying);
+    pathfinding_flying->mouseTileTex = app->tex->Load(app->scene->texturePath.GetString());
 
-    RELEASE_ARRAY(navigationMap);
+    CreateNavigationMap(mapData.width, mapData.height, &navigationMap_walking, navigationLayer_walking);
+    pathfinding_walking->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap_walking);
+    pathfinding_walking->mouseTileTex = app->tex->Load(app->scene->texturePath.GetString());
+
+    RELEASE_ARRAY(navigationMap_flying);
+    RELEASE_ARRAY(navigationMap_walking);
 
     if(mapFileXML) mapFileXML.reset();
 
@@ -569,17 +578,14 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer, MapLayer*
             //If the gid is a blockedGid is an area that I cannot navigate, so is set in the navigation map as 0, all the other areas can be navigated
             //!!!! make sure that you assign blockedGid according to your map
 
-            if (gid == tileset->firstgid + 3)navigationMap[i] = 0;
-            else navigationMap[i] = 1;
-
-            /*if (navigationLayer == navigationLayer_floor) {
-                if (gid == tileset->firstgid + 1) navigationMap[i] = 1;
-                else navigationMap[i] = 0;
+            if (navigationLayer == navigationLayer_flying) {
+                if (gid == tileset->firstgid + 3) navigationMap[i] = 0;
+                else navigationMap[i] = 1;
             }
             else {
-                if (gid == tileset->firstgid) navigationMap[i] = 0;
-                else navigationMap[i] = 1;
-            }*/
+                if (gid == tileset->firstgid + 4) navigationMap[i] = 1;
+                else navigationMap[i] = 0;
+            }
 
 
         }

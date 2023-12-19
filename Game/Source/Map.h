@@ -169,8 +169,10 @@ public:
 	MapData mapData;
 	SString name;
 	SString path;
-	PathFinding* pathfinding;
-	MapLayer* navigationLayer;
+	PathFinding* pathfinding_walking;
+	PathFinding* pathfinding_flying;
+	MapLayer* navigationLayer_walking;
+	MapLayer* navigationLayer_flying;
 
 private:
 
