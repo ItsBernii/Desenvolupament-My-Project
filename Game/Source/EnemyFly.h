@@ -35,10 +35,11 @@ public:
 
 	bool isOutOfBounds(int x, int y);
 
-	bool Flyfinding();
+	bool Flyfinding(float dt);
 
 public:
 	float speed;
+	b2Vec2 vel;
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;

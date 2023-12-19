@@ -67,8 +67,7 @@ bool EnemyFly::Update(float dt)
 {
 	currentAnim = &idleAnim;
 
-	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
-	vel.y = pbody->body->GetLinearVelocity().y;
+	vel = b2Vec2(0, 0);
 
 	if (app->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT) {
 		vel = b2Vec2(speed * dt, 0);
@@ -92,7 +91,7 @@ bool EnemyFly::Update(float dt)
 		currentAnim = &dieAnim;
 	}
 
-	Flyfinding();
+	Flyfinding(dt);
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
@@ -170,7 +169,7 @@ bool EnemyFly::isOutOfBounds(int x, int y) {
 	return true;
 }
 
-bool EnemyFly::Flyfinding()
+bool EnemyFly::Flyfinding(float dt)
 {
 	if (app->map->pathfinding->GetDistance(app->scene->GetPLayer()->position, position) <= 200) {
 
@@ -186,6 +185,26 @@ bool EnemyFly::Flyfinding()
 			if (app->physics->debug == true) {
 				app->render->DrawTexture(app->map->pathfinding->mouseTileTex, pos.x, pos.y, SDL_FLIP_NONE);
 			}
+		}
+
+		if (lastPath.Count() > 2) {
+			if (lastPath.At(lastPath.Count() - 2)->x < enemyPos.x) {
+				vel.x -= speed * dt;
+			}
+
+			if (lastPath.At(lastPath.Count() - 2)->x > enemyPos.x) {
+				vel.x += speed * dt;
+			}
+
+			if (lastPath.At(lastPath.Count() - 2)->y < enemyPos.y) {
+				vel.y -= speed * dt;
+			}
+
+			if (lastPath.At(lastPath.Count() - 2)->y > enemyPos.y) {
+				vel.y += speed * dt;
+			}
+
+			pbody->body->SetLinearVelocity(vel);
 		}
 
 	}
