@@ -29,6 +29,9 @@ EnemyFly::EnemyFly() : Entity(EntityType::ENEMYFLY)
 	//dead
 	deadAnim.LoadAnimations("deadAnimBat");
 
+	//atack
+	attackAnim.LoadAnimations("attackAnimFly");
+
 }
 
 EnemyFly::~EnemyFly() {
@@ -89,6 +92,10 @@ bool EnemyFly::Update(float dt)
 		pbody->body->SetGravityScale(1);
 		pbody->body->SetLinearVelocity(b2Vec2(0, -GRAVITY_Y));
 		currentAnim = &dieAnim;
+	}
+
+	if (isAttacking && !isDead) {
+		currentAnim = &attackAnim;
 	}
 
 	Flyfinding(dt);
@@ -207,6 +214,8 @@ bool EnemyFly::Flyfinding(float dt)
 				vel.y += speed * dt;
 			}
 
+			isAttacking = false;
+			attackAnim.Reset();
 			pbody->body->SetLinearVelocity(vel);
 		}
 
@@ -219,9 +228,33 @@ bool EnemyFly::Flyfinding(float dt)
 				vel.x += speed * dt;
 
 			}
+			isAttacking = true;
 			pbody->body->SetLinearVelocity(vel);
 		}
 
 	}
+
+	else {
+		if (initialPos.p.x - 3 <= position.x && isFacingLeft) {
+			vel.x -= speed * dt;
+			isFacingLeft = true;
+		}
+
+		if (initialPos.p.x - 3 > position.x && isFacingLeft) {
+			isFacingLeft = false;
+		}
+
+		if (initialPos.p.x + 3 >= position.x && !isFacingLeft) {
+			vel.x += speed * dt;
+			isFacingLeft = false;
+		}
+		if (initialPos.p.x + 3 < position.x && !isFacingLeft) {
+			isFacingLeft = true;
+		}
+
+
+		pbody->body->SetLinearVelocity(vel);
+	}
+
 	return true;
 }

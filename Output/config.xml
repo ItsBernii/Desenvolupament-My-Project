@@ -31,7 +31,7 @@
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
-		<enemyFly x="230" y="460" texturepath="Assets/Textures/enemyfly.png" speed="0.1"/>
+		<enemyFly x="280" y="460" texturepath="Assets/Textures/enemyfly.png" speed="0.1"/>
 		
 		<item x="230" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="245" y="471" texturepath="Assets/Textures/coin.png"/>
@@ -141,5 +141,17 @@
 			<frame x="57" y="38" w="20" h="20"/>
 			<frame x="57" y="38" w="20" h="20"/>
 		</deadAnimFly>
+
+		<attackAnimFly  loop="false" speed="0.1">
+			<frame x="0" y="76" w="20" h="20"/>
+			<frame x="19" y="76" w="20" h="20"/>
+			<frame x="38" y="76" w="20" h="20"/>
+			<frame x="57" y="76" w="20" h="20"/>
+			<frame x="76" y="76" w="20" h="20"/>
+			<frame x="95" y="76" w="20" h="20"/>
+			<frame x="114" y="76" w="20" h="20"/>
+			<frame x="133" y="76" w="20" h="20"/>
+		</attackAnimFly>
+		
 	</animations>
 </config>
