@@ -25,7 +25,7 @@ bool Map::Awake(pugi::xml_node& config)
 {
     LOG("Loading Map Parser");
     bool ret = true;
-    texturePath = config.child("scene").child("mouseTileTex").attribute("texturepath").as_string();
+    texturePath = config.child("mouseTileTex").attribute("texturepath").as_string();
     return ret;
 }
 
@@ -559,6 +559,9 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer, MapLayer*
             TileSet* tileset = GetTilesetFromTileId(gid);
             //If the gid is a blockedGid is an area that I cannot navigate, so is set in the navigation map as 0, all the other areas can be navigated
             //!!!! make sure that you assign blockedGid according to your map
+
+            if (gid == tileset->firstgid + 3)navigationMap[i] = 1;
+            else navigationMap[i] = 0;
 
             /*if (navigationLayer == navigationLayer) {
                 if (gid == tileset->firstgid + 1) navigationMap[i] = 1;

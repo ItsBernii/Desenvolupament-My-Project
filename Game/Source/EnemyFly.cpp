@@ -86,6 +86,7 @@ bool EnemyFly::Update(float dt)
 		currentAnim = &dieAnim;
 	}
 
+	Flyfinding();
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
