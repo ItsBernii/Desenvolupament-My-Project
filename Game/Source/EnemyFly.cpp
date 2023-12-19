@@ -80,15 +80,6 @@ bool EnemyFly::Update(float dt)
 		isFacingLeft = !isFacingLeft;
 	}
 
-	if (isDead) {
-		currentAnim = &deadAnim;
-		pbody->body->SetActive(false);
-		if (deadAnim.HasFinished() == true) {
-			app->entityManager->DestroyEntity(pbody->listener);
-			deadAnim.Reset();
-		}
-	}
-
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) {
 		pbody->body->SetGravityScale(1);
 		pbody->body->SetLinearVelocity(b2Vec2(0, -GRAVITY_Y));
@@ -104,6 +95,23 @@ bool EnemyFly::Update(float dt)
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	pbody->body->SetLinearVelocity(vel);
+
+	if (isDying) {
+		isAttacking = false;
+		pbody->body->SetGravityScale(1);
+		pbody->body->SetLinearVelocity(b2Vec2(0, -GRAVITY_Y));
+		currentAnim = &dieAnim;
+
+	}
+
+	if (isDead) {
+		currentAnim = &deadAnim;
+		pbody->body->SetActive(false);
+		if (deadAnim.HasFinished() == true) {
+			app->entityManager->DestroyEntity(pbody->listener);
+			deadAnim.Reset();
+		}
+	}
 
 	currentAnim->Update();
 
@@ -139,9 +147,7 @@ void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	case ColliderType::ATTACK:
 		LOG("Collision ATTACK");
-		pbody->body->SetGravityScale(1);
-		pbody->body->SetLinearVelocity(b2Vec2(0, -GRAVITY_Y));
-		currentAnim = &dieAnim;
+		isDying = true;
 		break;
 
 	case ColliderType::ENEMY:

@@ -89,9 +89,6 @@ bool EnemyWalk::Update(float dt)
 		}
 	}
 
-	if (isAttacking) currentAnim = &attackAnim;
-	pbody->body->SetLinearVelocity(vel);
-
 	currentAnim->Update();
 
 	return true;
