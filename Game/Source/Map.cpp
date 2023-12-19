@@ -25,6 +25,7 @@ bool Map::Awake(pugi::xml_node& config)
 {
     LOG("Loading Map Parser");
     bool ret = true;
+    texturePath = config.child("scene").child("mouseTileTex").attribute("texturepath").as_string();
     return ret;
 }
 
@@ -37,6 +38,7 @@ bool Map::Start() {
 
     //Initialize pathfinding 
     pathfinding = new PathFinding();
+    pathfinding->mouseTileTex = app->tex->Load(texturePath.GetString());
 
     return ret;
 }
@@ -322,7 +324,7 @@ bool Map::LoadMap(pugi::xml_node mapFile)
         mapData.width = map.attribute("width").as_int();
         mapData.tileHeight = map.attribute("tileheight").as_int();
         mapData.tileWidth = map.attribute("tilewidth").as_int();
-        mapData.type = MAPTYPE_UNKNOWN;
+        mapData.type = MAPTYPE_ORTHOGONAL;
     }
 
     return ret;

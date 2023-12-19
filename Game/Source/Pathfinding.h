@@ -54,6 +54,8 @@ public:
 	uint GetDistance(b2Vec2 playerPos, b2Vec2 enemyPos);
 	uint GetDistance(iPoint playerPos, iPoint enemyPos);
 
+	SDL_Texture* mouseTileTex;
+
 private:
 
 	// size of the map

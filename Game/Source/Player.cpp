@@ -204,11 +204,11 @@ bool Player::Update(float dt)
 		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && !isDying && !isDashing && !isJumping && !isAttacking) {
 			isAttacking = true;
 			if (isFacingLeft) {
-				sensor = app->physics->CreateRectangleSensor(position.x - 5, position.y + 15, 20, 40, bodyType::STATIC);
+				sensor = app->physics->CreateRectangleSensor(position.x - 10, position.y + 15, 30, 40, bodyType::STATIC);
 				sensor->ctype = ColliderType::ATTACK;
 			}
 			else {
-				sensor = app->physics->CreateRectangleSensor(position.x + 36, position.y + 15, 20, 40, bodyType::STATIC);
+				sensor = app->physics->CreateRectangleSensor(position.x + 40, position.y + 15, 30, 40, bodyType::STATIC);
 				sensor->ctype = ColliderType::ATTACK;
 			}
 		}

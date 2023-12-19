@@ -163,7 +163,7 @@ private:
 	void CreateNavigationMap(int& width, int& height, uchar** buffer, MapLayer* navigationLayer) const;
 	bool LoadNavigationLayer();
 
-	
+	SString texturePath;
 
 public: 
 
