@@ -27,7 +27,7 @@
 	</audios>
 	<scene>
 		<map path="Assets/Maps/" name="MapGameTiled.tmx">
-			<mouseTileTex texturepath="Assets/Textures/goldCoin.png"/>
+			<mouseTileTex texturepath="Assets/Textures/pathfinding.png"/>
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
@@ -42,7 +42,7 @@
 	</scene>
 	
 	<map>
-		<mouseTileTex texturepath="Assets/Textures/goldCoin.png"/>
+		<mouseTileTex texturepath="Assets/Textures/pathfinding.png"/>
 	</map>
 	
 	<animations>
