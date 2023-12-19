@@ -31,7 +31,7 @@
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
-		<enemyFly x="280" y="460" texturepath="Assets/Textures/enemyfly.png" speed="0.1"/>
+		<enemyFly x="340" y="460" texturepath="Assets/Textures/enemyfly.png" speed="0.1"/>
 		
 		<item x="230" y="471" texturepath="Assets/Textures/coin.png"/>
 		<item x="245" y="471" texturepath="Assets/Textures/coin.png"/>

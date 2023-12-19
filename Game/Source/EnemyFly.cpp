@@ -235,12 +235,28 @@ bool EnemyFly::Flyfinding(float dt)
 	}
 
 	else {
-		if (initialPos.p.x - 3 <= position.x && isFacingLeft) {
+		if (isFacingLeft) {
+			if (position.x > initialPos.p.x - 10 && app->map->pathfinding->IsWalkable(position)) {
+				vel.x -= speed * dt;
+			}
+			else {
+				isFacingLeft = false;
+			}
+		}
+
+		else {
+			if (position.x < initialPos.p.x + 10 && app->map->pathfinding->IsWalkable(position)) {
+				vel.x += speed * dt;
+			}
+			else {
+				isFacingLeft = true;
+			}
+		}
 			vel.x -= speed * dt;
 			isFacingLeft = true;
 		}
 
-		if (initialPos.p.x - 3 > position.x && isFacingLeft) {
+		/*if (initialPos.p.x - 3 > position.x && isFacingLeft) {
 			isFacingLeft = false;
 		}
 
@@ -251,7 +267,7 @@ bool EnemyFly::Flyfinding(float dt)
 		if (initialPos.p.x + 3 < position.x && !isFacingLeft) {
 			isFacingLeft = true;
 		}
-
+		*/
 
 		pbody->body->SetLinearVelocity(vel);
 	}
