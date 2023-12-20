@@ -31,12 +31,13 @@
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
-		<enemyFly x="370" y="430" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
-		<enemyFly x="150" y="440" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
-		<enemyWalk x="1820" y="115" texturepath="Assets/Textures/enemywalk.png" speed="0.1"/>
-		<item x="230" y="471" texturepath="Assets/Textures/coin.png"/>
-		<item x="245" y="471" texturepath="Assets/Textures/coin.png"/>
-		<item x="260" y="471" texturepath="Assets/Textures/coin.png"/>
+		<enemyFly x="500" y="430" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
+		<enemyFly x="1000" y="160" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
+		<enemyWalk x="2200" y="300" texturepath="Assets/Textures/enemywalk.png" speed="0.05"/>
+		<enemyWalk x="1600" y="460" texturepath="Assets/Textures/enemywalk.png" speed="0.05"/>
+		<item x="230" y="465" texturepath="Assets/Textures/coin.png"/>
+		<item x="1100" y="20" texturepath="Assets/Textures/coin.png"/>
+		<item x="2630" y="420" texturepath="Assets/Textures/coin.png"/>
 
 
 	</scene>
