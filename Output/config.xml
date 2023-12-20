@@ -32,7 +32,7 @@
 		</map>
 		
 		<player x="200" y="460" texturepath="Assets/Textures/player1.png" speed="0.2" speedDash="0.5" jumpForce="0.11"/>
-		<enemyFly x="500" y="430" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
+		<enemyFly x="460" y="430" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
 		<enemyFly x="1000" y="160" texturepath="Assets/Textures/enemyfly.png" speed="0.05"/>
 		<enemyWalk x="2200" y="300" texturepath="Assets/Textures/enemywalk.png" speed="0.05"/>
 		<enemyWalk x="1600" y="460" texturepath="Assets/Textures/enemywalk.png" speed="0.05"/>
