@@ -164,7 +164,6 @@ void EnemyFly::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 
 	case ColliderType::PLATFORM:
-		isDead = true;
 		LOG("Collision PLATFORM");
 		break;
 
