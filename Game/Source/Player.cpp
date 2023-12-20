@@ -203,11 +203,11 @@ bool Player::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !isDying && !isDashing && !isJumping && !isAttacking) {
 			isAttacking = true;
 			if (isFacingLeft) {
-				sensor = app->physics->CreateRectangleSensor(position.x - 10, position.y + 15, 30, 40, bodyType::STATIC);
+				sensor = app->physics->CreateRectangleSensor(position.x - 10, position.y + 15, 10, 40, bodyType::STATIC);
 				sensor->ctype = ColliderType::ATTACK;
 			}
 			else {
-				sensor = app->physics->CreateRectangleSensor(position.x + 40, position.y + 15, 30, 40, bodyType::STATIC);
+				sensor = app->physics->CreateRectangleSensor(position.x + 40, position.y + 15, 10, 40, bodyType::STATIC);
 				sensor->ctype = ColliderType::ATTACK;
 			}
 		}
