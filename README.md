@@ -16,8 +16,9 @@ Link to the project: <a href="https://github.com/ItsBernii/Desenvolupament-My-Pr
   <li>A - Move Left</li>
   <li>D - Move Right</li>
   <li>S - Crouch</li>
-  <li> SPACE - Jump</li>
+  <li>W - Jump</li>
   <li>E - Dash</li>
+  <li>SPACE - Attack</li>
   <li>ESC - Close Game</li>
 </ul>
 
