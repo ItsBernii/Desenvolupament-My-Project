@@ -1,12 +1,11 @@
-# Duding Games' first release by Núria Case, Albert Cifuentes & Bernat Cifuentes!
+Bernat Cifuentes's Project!
 
-We're making a project team of the subject “DESENVOLUPAMENT DE VIDEOJOCS” in CITM University: Videogames Design & Developments degree. The first job is to make a platformer game in SDL and Box2d.
-Link to the project: <a href="https://github.com/Duding-Games/Projecte-Desenvolupament-de-Videojocs">Click Here.</a>
+I'm making a project of the subject “DESENVOLUPAMENT DE VIDEOJOCS” in CITM University: Videogames Design & Developments degree. The first job is to make a platformer game in SDL and Box2d.
+Link to the project: <a href="https://github.com/ItsBernii/Desenvolupament-My-Project">Click Here.</a>
 
-<h2>Members</h2>
+<h2>Member</h2>
 <ul>
-  <li>Núria Case. Github: <a href="https://github.com/Cifu2004">@Cifu2004</a>.</li>
-  <li>Albert Cifuentes. Github: <a href="https://github.com/CaseChips">@CaseChips</a>.</li>
+ 
   <li>Bernat Cifuentes. Github: <a href="https://github.com/ItsBernii">@ItsBernii</a>.</li>
 </ul>
 <h2>Keyboard Controls</h2>
@@ -17,9 +16,9 @@ Link to the project: <a href="https://github.com/Duding-Games/Projecte-Desenvolu
   <li>A - Move Left</li>
   <li>D - Move Right</li>
   <li>S - Crouch</li>
-  <li> SPACE - Jump</li>
+  <li>W - Jump</li>
   <li>E - Dash</li>
-  <li>Q - Attack (only animation)</li>
+  <li>SPACE - Attack</li>
   <li>ESC - Close Game</li>
 </ul>
 
@@ -28,6 +27,8 @@ Link to the project: <a href="https://github.com/Duding-Games/Projecte-Desenvolu
 <ul>
   <li>F1 - Go to Level 1</li>
   <li>F3 - Reset Current Level</li>
+  <li>F5 - Save Position</li>
+  <li>F6 - Load Position</li>
   <li>F8 - Enable/Disable Vsync</li>
   <li>F9 - Enable/Disable Colliders</li>
   <li>F10 - Enable/Disable GodMode</li>
