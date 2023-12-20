@@ -25,10 +25,10 @@ EnemyFly::EnemyFly() : Entity(EntityType::ENEMYFLY)
 	idleAnim.LoadAnimations("idleAnimFly");
 
 	//dying
-	dieAnim.LoadAnimations("dyingAnimBat");
+	dieAnim.LoadAnimations("dyingAnimFly");
 
 	//dead
-	deadAnim.LoadAnimations("deadAnimBat");
+	deadAnim.LoadAnimations("deadAnimFly");
 
 	//atack
 	attackAnim.LoadAnimations("attackAnimFly");
