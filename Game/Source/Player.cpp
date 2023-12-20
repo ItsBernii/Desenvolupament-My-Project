@@ -155,7 +155,7 @@ bool Player::Update(float dt)
 		
 		pbody->body->SetLinearVelocity(vel);
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !isDying && !isAttacking) {
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !isDying && !isAttacking) {
 			if (isJumping == false) {
 				vel.y = 0;
 				pbody->body->SetLinearVelocity(vel);
@@ -199,7 +199,7 @@ bool Player::Update(float dt)
 			isDashing = true;
 		}
 		//Attack
-		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && !isDying && !isDashing && !isJumping && !isAttacking) {
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !isDying && !isDashing && !isJumping && !isAttacking) {
 			isAttacking = true;
 			if (isFacingLeft) {
 				sensor = app->physics->CreateRectangleSensor(position.x - 10, position.y + 15, 30, 40, bodyType::STATIC);
