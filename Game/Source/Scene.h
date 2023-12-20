@@ -54,6 +54,8 @@ private:
 	EnemyFly* enemyFly;
 	EnemyWalk* enemyWalk;
 
+	PhysBody* zonaVictoria;
+
 };
 
 #endif // __SCENE_H__

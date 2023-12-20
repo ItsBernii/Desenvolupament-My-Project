@@ -84,7 +84,8 @@ bool Scene::Start()
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
 
-	/*app->audio->LoadMusic("backgroundMusic");*/
+	zonaVictoria = app->physics->CreateRectangleSensor(3385, 345, 100, 92, bodyType::STATIC);
+	zonaVictoria->ctype = ColliderType::VICTORY;
 
 	return true;
 }

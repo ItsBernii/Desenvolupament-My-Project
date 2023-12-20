@@ -74,6 +74,7 @@ bool Player::Start() {
 	pbody->body->SetFixedRotation(false);
 
 	pickCoinFxId = app->audio->LoadAudios("pickCoin");
+	victoryFxId = app->audio->LoadAudios("Victory");
 
 	initialPos = pbody->body->GetTransform();
 		
@@ -350,6 +351,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		}
 		isJumping = false;
 		LOG("Collision ENEMY");
+		break;
+
+	case ColliderType::VICTORY:
+		LOG("Collision WIN");
+		app->audio->PlayFx(victoryFxId);
 		break;
 
 	case ColliderType::UNKNOWN:

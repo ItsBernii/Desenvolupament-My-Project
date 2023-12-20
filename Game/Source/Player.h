@@ -44,6 +44,7 @@ public:
 	PhysBody* pbody;
 	PhysBody* sensor;
 	int pickCoinFxId;
+	int victoryFxId;
 	int offsetTexY = 6;
 	bool isJumping = false;
 	bool isFacingLeft = false;
@@ -51,6 +52,8 @@ public:
 	bool isAttacking = false;
 	bool isCrouching = false;
 	bool isDying = false;
+
+
 
 	Animation* currentAnim;
 
