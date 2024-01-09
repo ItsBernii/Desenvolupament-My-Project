@@ -195,7 +195,7 @@ bool EnemyWalk::Slimefinding(float dt)
 			pbody->body->SetLinearVelocity(vel);
 		}
 
-		if (app->map->pathfinding_walking->GetDistance(app->scene->GetPLayer()->position, position) <= 66){
+		if (app->map->pathfinding_walking->GetDistance(app->scene->GetPLayer()->position, position) <= 59){
 			
 			if (isFacingLeft) {
 				vel.x -= speed * dt;
