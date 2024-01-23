@@ -41,6 +41,8 @@ public:
 	float jumpForce;
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
+	SDL_Texture* wintex = NULL;
+	SDL_Texture* losetex = NULL;
 	PhysBody* pbody;
 	PhysBody* sensor;
 	int pickCoinFxId;
@@ -52,6 +54,8 @@ public:
 	bool isAttacking = false;
 	bool isCrouching = false;
 	bool isDying = false;
+	bool deadScreen = false;
+	bool win = false;
 
 
 

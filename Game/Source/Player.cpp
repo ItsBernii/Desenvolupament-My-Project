@@ -59,6 +59,7 @@ bool Player::Awake() {
 	speedDash = parameters.attribute("speedDash").as_float();
 	jumpForce = parameters.attribute("jumpForce").as_float();
 	timerDash = Timer();
+	win = false;
 
 	return true;
 }
@@ -77,6 +78,8 @@ bool Player::Start() {
 	victoryFxId = app->audio->LoadAudios("Victory");
 
 	initialPos = pbody->body->GetTransform();
+	wintex = app->tex->Load("Assets/textures/WinScreen.png");
+	losetex = app->tex->Load("Assets/textures/DieScreen.png");
 		
 
 	return true;
@@ -84,6 +87,12 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	if (win == true) {
+		return true;
+	}
+	if (deadScreen == true) {
+		return true;
+	}
 	currentAnim = &idleAnim;
 	isCrouching = false;
 	
@@ -232,10 +241,7 @@ bool Player::Update(float dt)
 		if (isDying) {
 			currentAnim = &dieAnim;
 			if (dieAnim.HasFinished()) {
-				pbody->body->SetTransform(b2Vec2(initialPos.p.x, initialPos.p.y), initialPos.q.GetAngle());
-				isDying = false;
-				dieAnim.Reset();
-				isFacingLeft = false;
+				deadScreen = true;
 			}
 		}
 		//Dash
@@ -311,6 +317,32 @@ bool Player::PostUpdate() {
 		app->render->DrawTexture(texture, position.x - 8, position.y - offsetTexY, SDL_FLIP_NONE, &rect);
 	}
 
+	if (win == true) {
+
+		app->render->DrawTexture(wintex, position.x - 400, position.y - 125, SDL_FLIP_NONE);
+
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
+			pbody->body->SetTransform(b2Vec2(initialPos.p.x, initialPos.p.y), initialPos.q.GetAngle());
+			isDying = false;
+			win = false;
+			dieAnim.Reset();
+			isFacingLeft = false;
+		}
+	}
+	if (deadScreen == true) {
+
+		app->render->DrawTexture(losetex, -app->render->camera.x / 2, -app->render->camera.y / 2 - 30, SDL_FLIP_NONE);
+
+		isDying = false;
+
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
+			pbody->body->SetTransform(b2Vec2(initialPos.p.x, initialPos.p.y), initialPos.q.GetAngle());
+			win = false;
+			dieAnim.Reset();
+			isFacingLeft = false;
+			deadScreen = false;
+		}
+	}
 	return true;
 }
 bool Player::CleanUp()
@@ -356,6 +388,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::VICTORY:
 		LOG("Collision WIN");
 		app->audio->PlayFx(victoryFxId);
+		win = true;
 		break;
 
 	case ColliderType::UNKNOWN:

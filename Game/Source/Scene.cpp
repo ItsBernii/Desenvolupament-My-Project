@@ -36,11 +36,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		item->parameters = itemNode;
 	}
 
-	if (config.child("player")) {
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-		player->parameters = config.child("player");
-	}
-
 	for (pugi::xml_node itemNode = config.child("enemyFly"); itemNode; itemNode = itemNode.next_sibling("enemyFly"))
 	{
 		EnemyFly* enemyFly = (EnemyFly*)app->entityManager->CreateEntity(EntityType::ENEMYFLY);
@@ -51,6 +46,11 @@ bool Scene::Awake(pugi::xml_node& config)
 	{
 		EnemyWalk* enemyWalk = (EnemyWalk*)app->entityManager->CreateEntity(EntityType::ENEMYWALK);
 		enemyWalk->parameters = itemNode;
+	}
+
+	if (config.child("player")) {
+		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+		player->parameters = config.child("player");
 	}
 
 	if (config.child("map")) {
