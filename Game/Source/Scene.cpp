@@ -63,6 +63,9 @@ bool Scene::Awake(pugi::xml_node& config)
 		texturePath = config.child("map").child("mouseTileTex").attribute("texturepath").as_string();
 	}
 
+	introtex = "Assets/textures/LoadingScreen.png";
+	tittletex ="Assets/textures/TittleScreen.png";
+
 	return ret;
 }
 // Called before the first frame
@@ -76,6 +79,9 @@ bool Scene::Start()
 	//Get the size of the window
 
 	//Get the size of the texture
+
+	texturescene = app->tex->Load(introtex);
+	texturescene2 = app->tex->Load(tittletex);
 
 	SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		app->map->mapData.width,
@@ -99,18 +105,18 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-	float camSpeed = 1; 
+	float camSpeed = 1;
 
-	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && app->godmode)
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && app->godmode)
 		app->render->camera.y += (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && app->godmode)
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && app->godmode)
 		app->render->camera.y -= (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && app->godmode)
+	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && app->godmode)
 		app->render->camera.x += (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && app->godmode)
+	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && app->godmode)
 		app->render->camera.x -= (int)ceil(camSpeed * dt);
 
 	// Renders the image in the center of the screen 
@@ -118,6 +124,23 @@ bool Scene::Update(float dt)
 	//Request App to Load / Save when pressing the keys F5(save) / F6(load)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest();
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
+
+	if (introactiva == true) {
+		app->render->DrawTexture(texturescene, 0,0, SDL_FLIP_NONE);
+		timer--;
+	}
+
+	if (timer == 0) {
+		introactiva = false;
+	}
+
+	if (introactiva == false) {
+		app->render->DrawTexture(texturescene2, 0,0, SDL_FLIP_NONE);
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			SDL_DestroyTexture(texturescene);
+			SDL_DestroyTexture(texturescene2);
+		}
+	}
 
 	return true;
 }
@@ -127,7 +150,7 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
 	return ret;

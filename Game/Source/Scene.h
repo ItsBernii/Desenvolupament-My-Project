@@ -47,6 +47,13 @@ public:
 	SString texturePath;
 
 private:
+	SDL_Texture* texturescene;
+	SDL_Texture* texturescene2;
+	const char* introtex;
+	const char* tittletex;
+	bool introactiva = true;
+	int timer = 200;
+
 	float textPosX, textPosY = 0;
 	uint texW, texH;
 	uint windowW, windowH;
