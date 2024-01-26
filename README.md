@@ -44,6 +44,7 @@ Link to the project: <a href="https://github.com/ItsBernii/Desenvolupament-My-Pr
   <li>Character animations</li>
   <li>New level 1 implemented</li>
   <li>Parallax system</li>
+  <li>New Win & DieScene</li>
   <li>Implementation of a debug mode</li>
   <li>Code improvements for better performance and reliability</li>
 </ul>
